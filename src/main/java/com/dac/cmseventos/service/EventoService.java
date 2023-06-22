@@ -2,6 +2,7 @@ package com.dac.cmseventos.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dac.cmseventos.exception.DefaultException;
 import com.dac.cmseventos.model.Evento;
@@ -13,7 +14,14 @@ public class EventoService {
     @Autowired
     private EventoRepository eventoRepository;
 
+    @Transactional
     public Evento salvar(Evento evento) {
+        Evento eventoExistente = eventoRepository.findByNome(evento.getNome());
+
+        if (eventoExistente != null && !eventoExistente.equals(evento)) {
+            throw new DefaultException("Já existe um evento cadastrado com este nome");
+        }
+        
         return eventoRepository.save(evento);
     }
 

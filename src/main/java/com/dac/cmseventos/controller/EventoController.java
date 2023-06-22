@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dac.cmseventos.model.Evento;
 import com.dac.cmseventos.model.input.EventoInput;
-import com.dac.cmseventos.model.input.EventoInputId;
 import com.dac.cmseventos.repository.EventoRepository;
 import com.dac.cmseventos.service.EventoService;
 
@@ -45,20 +43,20 @@ public class EventoController {
     }
 
     @GetMapping("/{idEvento}")
-    public ResponseEntity<Evento> buscar(@RequestParam EventoInputId eventoInputId) {
-        Evento evento = eventoService.buscarOuFalhar(eventoInputId.getId());
+    public ResponseEntity<Evento> buscar(@PathVariable Long idEvento) {
+        Evento evento = eventoService.buscarOuFalhar(idEvento);
         return ResponseEntity.ok(evento);
     }
 
     @PutMapping("/{idEvento}")
-    public ResponseEntity<Evento> atualizar(@RequestParam EventoInputId eventoInputId, @RequestBody EventoInput eventoInput) {
-        Evento evento = eventoService.buscarOuFalhar(eventoInputId.getId());
+    public ResponseEntity<Evento> atualizar(@PathVariable Long idEvento, @RequestBody EventoInput eventoInput) {
+        Evento eventoAtual = eventoService.buscarOuFalhar(idEvento);
+
+        copyToDomainObject(eventoInput, eventoAtual);
         
-        evento.setNome(eventoInput.getNome());
-        evento.setSigla(eventoInput.getSigla());
-        evento.setDescricao(eventoInput.getDescricao()); 
+        eventoAtual = eventoService.salvar(eventoAtual);
         
-        return ResponseEntity.ok(eventoService.salvar(evento));
+        return ResponseEntity.ok(eventoAtual);
     }
 
     @DeleteMapping("/{idEvento}")
@@ -66,8 +64,6 @@ public class EventoController {
         eventoService.excluir(idEvento);
         return ResponseEntity.noContent().build();
     }
-
-
 
     /**
      * Converte um EventoInput para um Evento
@@ -79,6 +75,29 @@ public class EventoController {
         evento.setNome(eventoInput.getNome());
         evento.setSigla(eventoInput.getSigla());
         evento.setDescricao(eventoInput.getDescricao());
+        return evento;
+    }
+
+    /**
+     * Copia os dados de um EventoInput para um Evento
+     * @param eventoInput
+     * @param evento
+     * @return
+     */
+    private Evento copyToDomainObject(EventoInput eventoInput, Evento evento) {
+
+        if (eventoInput.getNome() != null) {
+            evento.setNome(eventoInput.getNome());
+        }
+
+        if (eventoInput.getSigla() != null) {
+            evento.setSigla(eventoInput.getSigla());
+        }
+
+        if (eventoInput.getDescricao() != null) {
+            evento.setDescricao(eventoInput.getDescricao());
+        }
+
         return evento;
     }
 

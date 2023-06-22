@@ -9,11 +9,12 @@ import lombok.Setter;
 public class EventoInput {    
     
     @NotBlank
-    private String nome;
-    
+    private String nome;    
+
     @NotBlank
     private String sigla;
 
+    @NotBlank
     private String descricao;
 
 }
