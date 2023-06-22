@@ -17,4 +17,7 @@ public class EventoInput {
     @NotBlank
     private String descricao;
 
+    @NotBlank
+    private String caminho;
+
 }

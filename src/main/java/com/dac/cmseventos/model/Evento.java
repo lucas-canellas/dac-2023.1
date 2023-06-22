@@ -19,5 +19,7 @@ public class Evento {
     private String sigla;
 
     private String descricao;
+
+    private String caminho;
     
 }

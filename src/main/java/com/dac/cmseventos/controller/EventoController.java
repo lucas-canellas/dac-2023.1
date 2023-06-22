@@ -75,6 +75,7 @@ public class EventoController {
         evento.setNome(eventoInput.getNome());
         evento.setSigla(eventoInput.getSigla());
         evento.setDescricao(eventoInput.getDescricao());
+        evento.setCaminho(eventoInput.getCaminho());
         return evento;
     }
 
@@ -96,6 +97,10 @@ public class EventoController {
 
         if (eventoInput.getDescricao() != null) {
             evento.setDescricao(eventoInput.getDescricao());
+        }
+
+        if (eventoInput.getCaminho() != null) {
+            evento.setCaminho(eventoInput.getCaminho());
         }
 
         return evento;
