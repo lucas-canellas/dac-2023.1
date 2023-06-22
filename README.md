@@ -1,3 +1,7 @@
+# Projeto e Implementação de uma API REST
+
+API desenvolvida para a disciplina Desenvolvimento de Aplicações Corporativas
+
 
 ## Stack utilizada
 
@@ -32,3 +36,4 @@ Acesse a URL
 ```bash
   http://localhost:8081
 ```
+
