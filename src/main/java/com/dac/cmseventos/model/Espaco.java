@@ -1,4 +1,4 @@
-package com.dac.cmseventos.models;
+package com.dac.cmseventos.model;
 
 import java.util.List;
 
