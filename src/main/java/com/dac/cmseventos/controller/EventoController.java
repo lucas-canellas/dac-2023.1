@@ -18,8 +18,10 @@ import com.dac.cmseventos.model.input.EventoInput;
 import com.dac.cmseventos.repository.EventoRepository;
 import com.dac.cmseventos.service.EventoService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+@Tag(name = "Eventos", description = "Endpoints eventos")
 @RestController
 @RequestMapping("/eventos")
 public class EventoController {
