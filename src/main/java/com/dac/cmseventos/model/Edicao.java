@@ -43,6 +43,6 @@ public class Edicao {
 
     @OneToOne
     @JoinColumn(name = "usuario_organizador_id")
-    private Usuario organizador;
+    private User organizador;
  
 }

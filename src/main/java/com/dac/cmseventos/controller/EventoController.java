@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dac.cmseventos.model.Evento;
-import com.dac.cmseventos.model.input.EventoInput;
+import com.dac.cmseventos.model.dto.EventoInput;
 import com.dac.cmseventos.repository.EventoRepository;
 import com.dac.cmseventos.service.EventoService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -32,24 +33,28 @@ public class EventoController {
     @Autowired
     private EventoRepository eventoRepository;
 
+    @Operation(summary = "Lista todos os eventos")
     @GetMapping
     public ResponseEntity<List<Evento>> listar() {
         List<Evento> eventos = eventoRepository.findAll();
         return ResponseEntity.ok(eventos);
     }
 
+    @Operation(summary = "Cadastra um evento")
     @PostMapping
     public ResponseEntity<Evento> salvar(@RequestBody @Valid EventoInput eventoInput) {
         Evento eventoSalvo = eventoService.salvar(toDomain(eventoInput));
         return ResponseEntity.ok(eventoSalvo);
     }
 
+    @Operation(summary = "Busca um evento pelo ID")
     @GetMapping("/{idEvento}")
     public ResponseEntity<Evento> buscar(@PathVariable Long idEvento) {
         Evento evento = eventoService.buscarOuFalhar(idEvento);
         return ResponseEntity.ok(evento);
     }
 
+    @Operation(summary = "Atualiza um evento")
     @PutMapping("/{idEvento}")
     public ResponseEntity<Evento> atualizar(@PathVariable Long idEvento, @RequestBody EventoInput eventoInput) {
         Evento eventoAtual = eventoService.buscarOuFalhar(idEvento);
@@ -61,6 +66,7 @@ public class EventoController {
         return ResponseEntity.ok(eventoAtual);
     }
 
+    @Operation(summary = "Exclui um evento")
     @DeleteMapping("/{idEvento}")
     public ResponseEntity<Void> excluir(@PathVariable Long idEvento) {
         eventoService.excluir(idEvento);

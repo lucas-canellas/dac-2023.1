@@ -9,11 +9,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
 @Data
-public class Usuario {
+@Table(name = "usuario")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

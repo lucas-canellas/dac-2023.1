@@ -1,4 +1,4 @@
-package com.dac.cmseventos.model.input;
+package com.dac.cmseventos.model.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
