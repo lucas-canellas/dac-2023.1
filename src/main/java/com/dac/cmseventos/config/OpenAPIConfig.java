@@ -33,9 +33,8 @@ public class OpenAPIConfig {
     prodServer.setDescription("Server URL in Production environment");
 
     Contact contact = new Contact();
-    contact.setEmail("cms-dac@gmail.com");
-    contact.setName("cms-dac");
-    contact.setUrl("https://www.cms-dac.com");
+    contact.setName("cms-dac-github");
+    contact.setUrl("https://github.com/lucas-canellas/dac-2023.2");
 
     License mitLicense = new License().name("MIT License").url("https://choosealicense.com/licenses/mit/");
 
@@ -43,7 +42,7 @@ public class OpenAPIConfig {
         .title("API CMS Eventos")
         .version("1.0")
         .contact(contact)
-        .description("Esta API fornece endpoints para o CMS de eventos").termsOfService("https://www.cms-dac.com/terms")
+        .description("<b>Alunos:</b> Lucas David Canellas, Matheus Vieira da Silva, Leonardo Tramont Lutz Moreira e Fabio Lucas Maciel da Silva")
         .license(mitLicense);
 
     return new OpenAPI().info(info).servers(List.of(devServer, prodServer));

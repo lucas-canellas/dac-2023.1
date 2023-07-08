@@ -46,6 +46,13 @@ public class EdicaoController {
         return ResponseEntity.ok(edicaoSalvo);
     }
 
+    @Operation(summary = "Adicionar organizador a uma edição")
+    @PostMapping("/{edicaoId}/organizador/{organizadorId}")
+    public ResponseEntity<Edicao> adicionarOrganizador(Long edicaoId, Long organizadorId) {
+        Edicao edicaoSalvo = edicaoService.adicionarOrganizador(edicaoId, organizadorId);
+        return ResponseEntity.ok(edicaoSalvo);
+    }
+
     @Operation(summary = "Atualiza uma edição")
     @PutMapping("/{edicaoId}")
     public ResponseEntity<Edicao> atualizar(@RequestBody @Valid EdicaoInput edicaoInput) {

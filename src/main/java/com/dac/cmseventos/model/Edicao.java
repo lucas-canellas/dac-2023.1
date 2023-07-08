@@ -44,5 +44,10 @@ public class Edicao {
     @OneToOne
     @JoinColumn(name = "usuario_organizador_id")
     private User organizador;
+
+    public void adicionarOrganizador(Long organizadorId) {
+        this.organizador = new User();
+        this.organizador.setId(organizadorId);
+    }
  
 }

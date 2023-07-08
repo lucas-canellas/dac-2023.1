@@ -26,4 +26,10 @@ public class EdicaoService {
         return edicaoRepository.findById(edicaoId).orElseThrow(() -> new DefaultException("Edição não encontrada"));
     }
 
+    public Edicao adicionarOrganizador(Long edicaoId, Long organizadorId) {
+        Edicao edicao = buscarOuFalhar(edicaoId);
+        edicao.adicionarOrganizador(organizadorId);
+        return edicaoRepository.save(edicao);
+    }
+
 }
