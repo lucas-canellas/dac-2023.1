@@ -8,6 +8,15 @@ API desenvolvida para a disciplina Desenvolvimento de Aplicações Corporativas
 
 **Back-end:** JAVA, Spring, Postgres
 
+## Acesso
+Usuario
+- username: user
+- password: user
+
+Administrador
+- username: admin
+- password: admin
+
 
 ## Rodando localmente
 
