@@ -109,6 +109,7 @@ public class EventoController {
         evento.setSigla(eventoInput.getSigla());
         evento.setDescricao(eventoInput.getDescricao());
         evento.setCaminho(eventoInput.getCaminho());
+        
         return evento;
     }
 

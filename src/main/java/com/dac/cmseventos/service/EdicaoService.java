@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.dac.cmseventos.exception.DefaultException;
 import com.dac.cmseventos.model.Edicao;
+import com.dac.cmseventos.model.User;
 import com.dac.cmseventos.repository.EdicaoRepository;
 
 @Service
@@ -13,7 +14,17 @@ public class EdicaoService {
     @Autowired
     private EdicaoRepository edicaoRepository;
 
+    @Autowired
+    private UserService userService;
+
     public Edicao salvar(Edicao edicao) {
+
+        Edicao edicaoExistente = edicaoRepository.findByEventoId(edicao.getEvento().getId()).orElse(null);
+
+        if (edicaoExistente != null && !edicaoExistente.equals(edicao)) {
+            throw new DefaultException("Já existe uma edição associada a este evento");
+        }
+
         return edicaoRepository.save(edicao);
     }
 
@@ -28,7 +39,8 @@ public class EdicaoService {
 
     public Edicao adicionarOrganizador(Long edicaoId, Long organizadorId) {
         Edicao edicao = buscarOuFalhar(edicaoId);
-        edicao.adicionarOrganizador(organizadorId);
+        User organizador = userService.buscarOuFalhar(organizadorId);
+        edicao.adicionarOrganizador(organizador.getId());
         return edicaoRepository.save(edicao);
     }
 

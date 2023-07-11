@@ -1,12 +1,9 @@
 package com.dac.cmseventos.model.dto;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-import com.dac.cmseventos.model.Atividade;
-import com.dac.cmseventos.model.Evento;
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,18 +11,22 @@ import lombok.Setter;
 @Setter
 public class EdicaoInput {
 
+    @NotNull
     private Integer numero;
 
+    @NotNull
     private Integer ano;
 
+    @NotNull
     private LocalDateTime dataInicio;
 
+    @NotNull
     private LocalDateTime dataFim;
 
+    @NotBlank
     private String cidade;
 
-    private List<Atividade> atividades = new ArrayList<>();
-
-    private Evento evento;
+    @NotNull
+    private EventoInputId evento;
     
 }

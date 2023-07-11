@@ -25,13 +25,13 @@ public class EventoService {
         for (GrantedAuthority authority : authentication.getAuthorities()) {
             String role = authority.getAuthority();
             if (role.equals("ROLE_USER")) {
-                throw new DefaultException("Usuário não tem permissão para cadastrar eventos");
+                throw new DefaultException("Usuário não tem permissão para cadastrar/editar eventos");
             }
         }
-        Evento eventoExistente = eventoRepository.findByNome(evento.getNome());
+        Evento eventoExistente = eventoRepository.findByCaminho(evento.getCaminho());
 
         if (eventoExistente != null && !eventoExistente.equals(evento)) {
-            throw new DefaultException("Já existe um evento cadastrado com este nome");
+            throw new DefaultException("Já existe um evento cadastrado com este caminho");
         }
 
         return eventoRepository.save(evento);

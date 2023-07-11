@@ -7,5 +7,7 @@ import com.dac.cmseventos.model.Evento;
 public interface EventoRepository extends JpaRepository<Evento, Long> {
 
     Evento findByNome(String nome);
+
+    Evento findByCaminho(String caminho);
     
 }

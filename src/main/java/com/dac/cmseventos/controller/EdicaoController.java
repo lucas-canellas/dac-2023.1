@@ -6,15 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dac.cmseventos.exception.DefaultException;
 import com.dac.cmseventos.model.Edicao;
+import com.dac.cmseventos.model.Evento;
 import com.dac.cmseventos.model.dto.EdicaoInput;
 import com.dac.cmseventos.repository.EdicaoRepository;
+import com.dac.cmseventos.repository.EventoRepository;
 import com.dac.cmseventos.service.EdicaoService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,6 +38,9 @@ public class EdicaoController {
 
     @Autowired
     private EdicaoRepository edicaoRepository;
+
+    @Autowired
+    private EventoRepository eventoRepository;
 
     @Operation(summary = "Lista todas as edições")
     @ApiResponses(value = {
@@ -64,7 +71,7 @@ public class EdicaoController {
         @ApiResponse(responseCode = "404", description = "Edição ou organizador não encontrado", content = @Content)
     })
     @PostMapping("/{edicaoId}/organizador/{organizadorId}")
-    public ResponseEntity<Edicao> adicionarOrganizador(Long edicaoId, Long organizadorId) {
+    public ResponseEntity<Edicao> adicionarOrganizador(@PathVariable Long edicaoId, @PathVariable Long organizadorId) {
         Edicao edicaoSalvo = edicaoService.adicionarOrganizador(edicaoId, organizadorId);
         return ResponseEntity.ok(edicaoSalvo);
     }
@@ -87,6 +94,7 @@ public class EdicaoController {
         @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content),
         @ApiResponse(responseCode = "404", description = "Edição não encontrada", content = @Content)
     })
+
     @DeleteMapping("/{edicaoId}")
     public ResponseEntity<Void> excluir(Long edicaoId) {
         edicaoService.excluir(edicaoId);
@@ -95,6 +103,17 @@ public class EdicaoController {
 
     public Edicao toDomain(EdicaoInput edicaoInput) {
         Edicao edicao = new Edicao();
+        edicao.setAno(edicaoInput.getAno());
+        edicao.setNumero(edicaoInput.getNumero());
+        edicao.setCidade(edicaoInput.getCidade());
+        edicao.setDataInicio(edicaoInput.getDataInicio());
+        edicao.setDataFim(edicaoInput.getDataFim());
+
+        Evento evento = eventoRepository.findById(edicaoInput.getEvento().getId())
+            .orElseThrow(() -> new DefaultException("Evento não encontrado"));
+
+        edicao.setEvento(evento);
+
         return edicao;
     }
 
