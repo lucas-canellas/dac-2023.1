@@ -42,7 +42,7 @@ public class OpenAPIConfig {
         .title("API CMS Eventos")
         .version("1.0")
         .contact(contact)
-        .description("<b>Alunos:</b> Lucas David Canellas, Matheus Vieira da Silva, Leonardo Tramont Lutz Moreira e Fabio Lucas Maciel da Silva")
+        .description("<b>Alunos:</b> Lucas David Canellas, Matheus Vieira da Silva, Leonardo Tramont Lutz Moreira e Fabio Lucas Maciel da Silva <br> Usuario: user <br> Senha: user <br> <b>Administrador:</b> <br> Usuario: admin <br> Senha: admin")
         .license(mitLicense);
 
     return new OpenAPI().info(info).servers(List.of(devServer, prodServer));
