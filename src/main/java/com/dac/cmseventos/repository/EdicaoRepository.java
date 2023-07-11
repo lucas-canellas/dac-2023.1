@@ -9,5 +9,7 @@ import com.dac.cmseventos.model.Edicao;
 public interface EdicaoRepository extends JpaRepository<Edicao, Long> {
 
     Optional<Edicao> findByEventoId(Long eventoId);
+
+    Optional<Edicao> findByOrganizadorId(Long organizadorId);
     
 }
