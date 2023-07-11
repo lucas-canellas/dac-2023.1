@@ -19,6 +19,8 @@ import com.dac.cmseventos.repository.EventoRepository;
 import com.dac.cmseventos.service.EventoService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -35,12 +37,20 @@ public class EventoController {
 
     @Operation(summary = "Lista todos os eventos")
     @GetMapping
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Lista de eventos" ),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     public ResponseEntity<List<Evento>> listar() {
         List<Evento> eventos = eventoRepository.findAll();
         return ResponseEntity.ok(eventos);
     }
 
     @Operation(summary = "Cadastra um evento")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Evento cadastrado" ),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @PostMapping
     public ResponseEntity<Evento> salvar(@RequestBody @Valid EventoInput eventoInput) {
         Evento eventoSalvo = eventoService.salvar(toDomain(eventoInput));
@@ -48,6 +58,11 @@ public class EventoController {
     }
 
     @Operation(summary = "Busca um evento pelo ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Evento encontrado" ),
+        @ApiResponse(responseCode = "404", description = "Evento não encontrado" ),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @GetMapping("/{idEvento}")
     public ResponseEntity<Evento> buscar(@PathVariable Long idEvento) {
         Evento evento = eventoService.buscarOuFalhar(idEvento);
@@ -55,6 +70,11 @@ public class EventoController {
     }
 
     @Operation(summary = "Atualiza um evento")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Evento atualizado" ),
+        @ApiResponse(responseCode = "404", description = "Evento não encontrado" ),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @PutMapping("/{idEvento}")
     public ResponseEntity<Evento> atualizar(@PathVariable Long idEvento, @RequestBody EventoInput eventoInput) {
         Evento eventoAtual = eventoService.buscarOuFalhar(idEvento);
@@ -67,6 +87,11 @@ public class EventoController {
     }
 
     @Operation(summary = "Exclui um evento")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Evento excluído" ),
+        @ApiResponse(responseCode = "404", description = "Evento não encontrado" ),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @DeleteMapping("/{idEvento}")
     public ResponseEntity<Void> excluir(@PathVariable Long idEvento) {
         eventoService.excluir(idEvento);

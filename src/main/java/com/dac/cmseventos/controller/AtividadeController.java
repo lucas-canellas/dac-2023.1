@@ -20,6 +20,9 @@ import com.dac.cmseventos.repository.AtividadeRepository;
 import com.dac.cmseventos.service.AtividadeService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Atividade", description = "Endpoints atividade")
@@ -34,6 +37,10 @@ public class AtividadeController {
     private AtividadeRepository atividadeRepository;
 
     @Operation(summary = "Lista todas as atividades")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Lista de atividades" ),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     @GetMapping
     public ResponseEntity<List<Atividade>> listar() {
         List<Atividade> atividades = atividadeRepository.findAll();
@@ -41,6 +48,10 @@ public class AtividadeController {
     }
 
     @Operation(summary = "Cadastra uma atividade")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Atividade cadastrada" ),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     @PostMapping
     public ResponseEntity<Atividade> cadastrar(@RequestBody AtividadeInput atividadeInput) {
         Atividade atividadeSalva = atividadeRepository.save(toDomain(atividadeInput));
@@ -48,6 +59,11 @@ public class AtividadeController {
     }
 
     @Operation(summary = "Edita uma atividade")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Atividade editada" ),
+        @ApiResponse(responseCode = "404", description = "Atividade não encontrada", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     @PutMapping("/{id}")
     public ResponseEntity<Atividade> editar(@PathVariable Long id, @RequestBody Atividade atividade) {
         Atividade atividadeAtual = atividadeService.buscarOuFalhar(id);
@@ -55,6 +71,11 @@ public class AtividadeController {
     }
 
     @Operation(summary = "Busca uma atividade pelo ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Atividade encontrada" ),
+        @ApiResponse(responseCode = "404", description = "Atividade não encontrada", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     @GetMapping("/{id}")
     public ResponseEntity<Atividade> buscar(@PathVariable Long id) {
         Atividade atividade = atividadeService.buscarOuFalhar(id);
@@ -62,6 +83,11 @@ public class AtividadeController {
     }
 
     @Operation(summary = "Deleta uma atividade")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Atividade deletada" ),
+        @ApiResponse(responseCode = "404", description = "Atividade não encontrada", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     @DeleteMapping("/{id}/deletar")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         atividadeService.excluir(id);

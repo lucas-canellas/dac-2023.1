@@ -18,6 +18,9 @@ import com.dac.cmseventos.repository.EdicaoRepository;
 import com.dac.cmseventos.service.EdicaoService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -33,6 +36,10 @@ public class EdicaoController {
     private EdicaoRepository edicaoRepository;
 
     @Operation(summary = "Lista todas as edições")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Lista de edições" ),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     @GetMapping
     public ResponseEntity<List<Edicao>> listar() {
         List<Edicao> edicoes = edicaoRepository.findAll();
@@ -40,6 +47,10 @@ public class EdicaoController {
     }
 
     @Operation(summary = "Cadastra uma edição")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Edição cadastrada" ),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     @PostMapping
     public ResponseEntity<Edicao> salvar(@RequestBody @Valid EdicaoInput edicaoInput) {
         Edicao edicaoSalvo = edicaoService.salvar(toDomain(edicaoInput));
@@ -47,6 +58,11 @@ public class EdicaoController {
     }
 
     @Operation(summary = "Adicionar organizador a uma edição")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Organizador adicionado" ),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content),
+        @ApiResponse(responseCode = "404", description = "Edição ou organizador não encontrado", content = @Content)
+    })
     @PostMapping("/{edicaoId}/organizador/{organizadorId}")
     public ResponseEntity<Edicao> adicionarOrganizador(Long edicaoId, Long organizadorId) {
         Edicao edicaoSalvo = edicaoService.adicionarOrganizador(edicaoId, organizadorId);
@@ -54,6 +70,11 @@ public class EdicaoController {
     }
 
     @Operation(summary = "Atualiza uma edição")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Edição atualizada" ),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content),
+        @ApiResponse(responseCode = "404", description = "Edição não encontrada", content = @Content)
+    })  
     @PutMapping("/{edicaoId}")
     public ResponseEntity<Edicao> atualizar(@RequestBody @Valid EdicaoInput edicaoInput) {
         Edicao edicaoSalvo = edicaoService.salvar(toDomain(edicaoInput));
@@ -61,6 +82,11 @@ public class EdicaoController {
     }
 
     @Operation(summary = "Exclui uma edição")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Edição excluída" ),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content),
+        @ApiResponse(responseCode = "404", description = "Edição não encontrada", content = @Content)
+    })
     @DeleteMapping("/{edicaoId}")
     public ResponseEntity<Void> excluir(Long edicaoId) {
         edicaoService.excluir(edicaoId);

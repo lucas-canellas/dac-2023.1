@@ -18,6 +18,8 @@ import com.dac.cmseventos.repository.UserRepository;
 import com.dac.cmseventos.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -33,13 +35,21 @@ public class UserController {
     private UserRepository userRepository;
 
     @Operation(summary = "Lista todos os usuários")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Lista de usuários" ),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @GetMapping
     public ResponseEntity<List<User>> listar() {
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
     }
 
-    @Operation(summary = "Cadastra um usuário") 
+    @Operation(summary = "Cadastra um usuário")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Usuário cadastrado" ),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @PostMapping
     public ResponseEntity<User> salvar(@RequestBody @Valid UserInput userInput) {
         User userSalvo = userService.salvar(toDomain(userInput));
@@ -47,6 +57,10 @@ public class UserController {
     }
 
     @Operation(summary = "Busca um usuário pelo ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Usuário encontrado" ),
+        @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    })
     @GetMapping("/{idUsuario}")
     public ResponseEntity<User> buscar(@PathVariable Long idUsuario) {
         User user = userService.buscarOuFalhar(idUsuario);
@@ -54,6 +68,10 @@ public class UserController {
     }
 
     @Operation(summary = "Atualiza um usuário")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Usuário atualizado" ),
+        @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    })
     @PostMapping("/{idUsuario}")
     public ResponseEntity<User> atualizar(@PathVariable Long idUsuario, @RequestBody UserInput userInput) {
         User userAtual = userService.buscarOuFalhar(idUsuario);
@@ -61,6 +79,10 @@ public class UserController {
     }
 
     @Operation(summary = "Deleta um usuário")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Usuário deletado" ),
+        @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    })
     @DeleteMapping("/{idUsuario}/deletar")
     public ResponseEntity<Void> deletar(@PathVariable Long idUsuario) {
         userService.excluir(idUsuario);

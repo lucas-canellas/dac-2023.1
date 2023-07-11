@@ -24,10 +24,12 @@ public class SpringSecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf().disable()
-                .authorizeHttpRequests((authorize) -> {
-                    authorize.anyRequest().authenticated();
-                }).httpBasic(Customizer.withDefaults());
-        return http.build();
+        .authorizeHttpRequests((authorize) -> {
+            authorize
+                .requestMatchers("/swagger-ui/**").permitAll()
+                .anyRequest().authenticated();
+        }).httpBasic(Customizer.withDefaults());
+    return http.build();
     }
 
     @Bean

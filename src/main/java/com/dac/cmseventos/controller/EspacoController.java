@@ -17,6 +17,9 @@ import com.dac.cmseventos.repository.EspacoRepository;
 import com.dac.cmseventos.service.EspacoService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -32,6 +35,10 @@ public class EspacoController {
     private EspacoRepository espacoRepository;
 
     @Operation(summary = "Lista todos os espacos")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Lista de espacos" ),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     @GetMapping
     public ResponseEntity<List<Espaco>> listar() {
         List<Espaco> espacos = espacoRepository.findAll();
@@ -39,6 +46,10 @@ public class EspacoController {
     }
 
     @Operation(summary = "Cadastra um espaco")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Espaco cadastrado" ),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     @PostMapping
     public ResponseEntity<Espaco> salvar(@RequestBody @Valid Espaco espaco) {
         Espaco espacoSalvo = espacoService.salvar(espaco);
@@ -46,6 +57,11 @@ public class EspacoController {
     }
 
     @Operation(summary = "Busca um espaco pelo ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Espaco encontrado" ),
+        @ApiResponse(responseCode = "404", description = "Espaco não encontrado", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     @GetMapping("/{idEspaco}")
     public ResponseEntity<Espaco> buscar(@PathVariable Long idEspaco) {
         Espaco espaco = espacoService.buscarOuFalhar(idEspaco);
@@ -53,6 +69,11 @@ public class EspacoController {
     }
 
     @Operation(summary = "Atualiza um espaco")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Espaco atualizado" ),
+        @ApiResponse(responseCode = "404", description = "Espaco não encontrado", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     @PutMapping("/{idEspaco}")
     public ResponseEntity<Espaco> atualizar(@PathVariable Long idEspaco, @RequestBody Espaco espaco) {
         Espaco espacoAtual = espacoService.buscarOuFalhar(idEspaco);
