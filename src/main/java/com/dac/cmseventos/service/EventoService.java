@@ -28,6 +28,7 @@ public class EventoService {
                 throw new DefaultException("Usuário não tem permissão para cadastrar/editar eventos");
             }
         }
+
         Evento eventoExistente = eventoRepository.findByCaminho(evento.getCaminho());
 
         if (eventoExistente != null && !eventoExistente.equals(evento)) {
@@ -38,6 +39,14 @@ public class EventoService {
     }
 
     public void excluir(Long eventoId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        for (GrantedAuthority authority : authentication.getAuthorities()) {
+            String role = authority.getAuthority();
+            if (role.equals("ROLE_USER")) {
+                throw new DefaultException("Usuário não tem permissão para excluir eventos");
+            }
+        }
         Evento evento = buscarOuFalhar(eventoId);
         eventoRepository.delete(evento);
     }
