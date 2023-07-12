@@ -11,14 +11,21 @@ import com.dac.cmseventos.exception.DefaultException;
 import com.dac.cmseventos.model.Evento;
 import com.dac.cmseventos.repository.EventoRepository;
 
+import jakarta.persistence.EntityManager;
+
 @Service
 public class EventoService {
 
     @Autowired
     private EventoRepository eventoRepository;
 
+    @Autowired
+    private EntityManager manager;
+
     @Transactional
     public Evento salvar(Evento evento) {
+
+        manager.detach(evento);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -31,7 +38,7 @@ public class EventoService {
 
         Evento eventoExistente = eventoRepository.findByCaminho(evento.getCaminho());
 
-        if (eventoExistente != null && !eventoExistente.equals(evento)) {
+        if (eventoExistente != null && !eventoExistente.getId().equals(evento.getId())) {
             throw new DefaultException("Já existe um evento cadastrado com este caminho");
         }
 
