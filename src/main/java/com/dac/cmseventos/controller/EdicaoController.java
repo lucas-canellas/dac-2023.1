@@ -94,9 +94,8 @@ public class EdicaoController {
         @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content),
         @ApiResponse(responseCode = "404", description = "Edição não encontrada", content = @Content)
     })
-
     @DeleteMapping("/{edicaoId}")
-    public ResponseEntity<Void> excluir(Long edicaoId) {
+    public ResponseEntity<Void> excluir(@PathVariable Long edicaoId) {
         edicaoService.excluir(edicaoId);
         return ResponseEntity.noContent().build();
     }
