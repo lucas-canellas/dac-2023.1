@@ -26,7 +26,7 @@ public class SpringSecurityConfig {
         http.csrf().disable()
         .authorizeHttpRequests((authorize) -> {
             authorize
-                .requestMatchers("/v1/swagger-ui/**").permitAll()
+                .requestMatchers("https://api-eventos-dac-production.up.railway.app/v1/swagger-ui/**").permitAll()
                 .anyRequest().authenticated();
         }).httpBasic(Customizer.withDefaults());
     return http.build();
