@@ -2,6 +2,11 @@
 
 API desenvolvida para a disciplina Desenvolvimento de Aplicações Corporativas
 
+## Swagger
+
+https://api-eventos-dac-production.up.railway.app/v1/swagger-ui/index.html#/
+
+
 
 ## Stack utilizada
 
