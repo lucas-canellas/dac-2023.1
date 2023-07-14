@@ -28,13 +28,13 @@ Administrador
 Clone o projeto
 
 ```bash
-  git clone https://github.com/lucas-canellas/dac-2023.2.git
+  git clone https://github.com/lucas-canellas/dac-2023.1.git
 ```
 
 Entre no diretório do projeto
 
 ```bash
-  cd dac-2023.2
+  cd dac-2023.1
 ```
 
 
