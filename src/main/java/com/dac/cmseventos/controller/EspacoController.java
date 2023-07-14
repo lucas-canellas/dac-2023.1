@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -78,6 +79,18 @@ public class EspacoController {
     public ResponseEntity<Espaco> atualizar(@PathVariable Long idEspaco, @RequestBody Espaco espaco) {
         Espaco espacoAtual = espacoService.buscarOuFalhar(idEspaco);
         return ResponseEntity.ok(espacoService.salvar(espacoAtual));
+    }
+
+    @Operation(summary = "Exclui um espaco")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Espaco excluído" ),
+        @ApiResponse(responseCode = "404", description = "Espaco não encontrado", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    @DeleteMapping("/{idEspaco}/excluir")
+    public ResponseEntity<Void> excluir(@PathVariable Long idEspaco) {
+        espacoService.excluir(idEspaco);
+        return ResponseEntity.noContent().build();
     }
 
 
