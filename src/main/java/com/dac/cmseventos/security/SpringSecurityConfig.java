@@ -27,6 +27,7 @@ public class SpringSecurityConfig {
         .authorizeHttpRequests((authorize) -> {
             authorize
                 .requestMatchers("/swagger-ui/**").permitAll()
+                .requestMatchers("/api-docs/**").permitAll()
                 .anyRequest().authenticated();
         }).httpBasic(Customizer.withDefaults());
     return http.build();
